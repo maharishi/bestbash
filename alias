@@ -1,11 +1,6 @@
 # ALIAS {{{
 alias freemem='sudo /sbin/sysctl -w vm.drop_caches=3'
 alias enter_matrix='echo -e "\e[32m"; while :; do for i in {1..16}; do r="$(($RANDOM % 2))"; if [[ $(($RANDOM % 5)) == 1 ]]; then if [[ $(($RANDOM % 4)) == 1 ]]; then v+="\e[1m $r   "; else v+="\e[2m $r   "; fi; else v+="     "; fi; done; echo -e "$v"; v=""; done'
-# GIT_OR_HUB {{{
-if which hub &>/dev/null; then
-  alias git=hub
-fi
-#}}}
 # AUTOCOLOR {{{
 alias ls='ls --color=auto'
 alias dir='dir --color=auto'
@@ -28,9 +23,7 @@ alias mkdir='mkdir -p -v'
 alias more='less'
 alias nano='nano -w'
 alias ping='ping -c 5'
-alias c='clear && clear'
 alias .bashrc="vim ~/.bashrc"
-alias exho='echo'
 #}}}
 # PRIVILEGED ACCESS {{{
 if ! $_isroot; then
@@ -43,29 +36,6 @@ if ! $_isroot; then
   alias powertop='sudo powertop'
 fi
 #}}}
-# PACMAN ALIASES {{{
-# we're on ARCH
-if $_isarch; then
-  # we're not root
-  if ! $_isroot; then
-    alias pacman='sudo pacman'
-  fi
-  alias pacupg='pacman -Syu'            # Synchronize with repositories and then upgrade packages that are out of date on the local system.
-  alias pacupd='pacman -Sy'             # Refresh of all package lists after updating /etc/pacman.d/mirrorlist
-  alias pacin='pacman -S'               # Install specific package(s) from the repositories
-  alias pacinu='pacman -U'              # Install specific local package(s)
-  alias pacre='pacman -R'               # Remove the specified package(s), retaining its configuration(s) and required dependencies
-  alias pacun='pacman -Rcsn'            # Remove the specified package(s), its configuration(s) and unneeded dependencies
-  alias pacinfo='pacman -Si'            # Display information about a given package in the repositories
-  alias pacse='pacman -Ss'              # Search for package(s) in the repositories
-
-  alias pacupa='pacman -Sy && sudo abs' # Update and refresh the local package and ABS databases against repositories
-  alias pacind='pacman -S --asdeps'     # Install given package(s) as dependencies of another package
-  alias pacclean="pacman -Sc"           # Delete all not currently installed package files
-  alias pacmake="makepkg -fcsi"         # Make package from PKGBUILD file in current directory
-  alias changemirror='svim /etc/pacman.d/mirrorlist'
-fi
-#}}}
 # MULTIMEDIA {{{
 if which get_flash_videos &>/dev/null; then
   alias gfv='get_flash_videos -r 720p --subtitles'
@@ -75,7 +45,7 @@ fi
 alias ls='ls -hF --color=auto'
 alias l='ls -hF --color=auto'
 alias lr='ls -R'                    # recursive ls
-alias ll='ls -alh'
+alias ll='ls -altr'
 alias la='ll -A'
 alias lm='la | less'
 #}}}
@@ -84,8 +54,57 @@ alias lm='la | less'
 
 #alias for activating env1
 #python virtualenv alias
-alias venv='source ~/env1/bin/activate'
 alias notes='vim ~/notes.txt'
-alias speedtest=~/speedtest
-alias utime='sudo ntpdate pool.ntp.org'
-alias sshlogin='ssh -i ~/sshkey/saket.txt saket@cseproj83.cse.iitk.ac.in'
+alias getme='sudo apt install '
+alias cls=clear
+alias remove='sudo apt remove '
+alias update='sudo apt update '
+alias gstat='sudo git status'
+alias gcom='sudo git commit -am '
+alias gadd='sudo git add '
+
+
+
+# alias chmod commands
+#
+alias mx='chmod a+x'
+alias 000='chmod -R 000'
+alias 644='chmod -R 644'
+alias 666='chmod -R 666'
+alias 755='chmod -R 755'
+alias 777='chmod -R 777'
+
+# # Search command line history
+alias h="history | grep "
+
+# # Search running processes
+alias p="ps aux | grep "
+alias topcpu="/bin/ps -eo pcpu,pid,user,args | sort -k 1 -r | head -10"
+
+# # Search files in the current folder
+alias f="find . | grep "
+
+# # Count all files (recursively) in the current folder
+alias countfiles="for t in files links directories; do echo \`find . -type \${t:0:1} | wc -l\` \$t; done 2> /dev/null"
+
+# # To see if a command is aliased, a file, or a built-in command
+alias checkcommand="type -t"
+
+# # Show current network connections to the server
+alias ipview="netstat -anpl | grep :80 | awk {'print \$5'} | cut -d\":\" -f1 | sort | uniq -c | sort -n | sed -e 's/^ *//' -e 's/ *\$//'"
+
+# # Show open ports
+alias openports='netstat -nape --inet'
+
+# # Alias's for safe and forced reboots
+alias rebootsafe='sudo shutdown -r now'
+alias rebootforce='sudo shutdown -r -n now'
+
+# # Alias's to show disk space and space used in a folder
+alias diskspace="du -S | sort -n -r |more"
+alias folders='du -h --max-depth=1'
+alias folderssort='find . -maxdepth 1 -type d -print0 | xargs -0 du -sk | sort -rn'
+alias tree='tree -CAhF --dirsfirst'
+alias treed='tree -CAFd'
+alias mountedinfo='df -hT'
+

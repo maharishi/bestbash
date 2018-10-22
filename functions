@@ -479,7 +479,7 @@ farad () {
 #}}}
 
 # ENTER AND LIST DIRECTORY{{{
-function cd() { builtin cd -- "$@" && { [ "$PS1" = "" ] || ls -hrt --color; }; }
+function cd() { builtin cd -- "$@" && { [ "$PS1" = "" ] || ls -alhrt --color; }; }
 #}}}
 
 # SYSTEMD SUPPORT {{{
@@ -524,3 +524,32 @@ vim()
   command vim "$@"
   stty "$STTYOPTS"
 }
+
+mkalias() {
+  if [ $# != 2 ]; then
+   echo "Usage: mkalias <alias_name> <alias_command>"
+  else
+   echo alias $1$'=\''$2$'\'' >> ~/.bash/myalias
+   source ~/.bashrc
+  fi
+}
+
+install_bashrc_support (){
+  sudo apt-get install multitail tree joe
+}
+
+
+netinfo ()
+{
+	echo "--------------- Network Information ---------------"
+	/sbin/ifconfig | awk /'inet addr/ {print $2}'
+	echo ""
+	/sbin/ifconfig | awk /'Bcast/ {print $3}'
+	echo ""
+	/sbin/ifconfig | awk /'inet addr/ {print $4}'
+
+	/sbin/ifconfig | awk /'HWaddr/ {print $4,$5}'
+	echo "---------------------------------------------------"
+}
+
+
